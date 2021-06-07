@@ -1,10 +1,8 @@
-import React from "react";
+import { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
@@ -16,6 +14,25 @@ import Copyright from "../components/Copyright";
 
 export default function SignInSide() {
   const classes = useStyles();
+  const initialUser = {
+    id: null,
+    email: "",
+    password: "",
+    error: null,
+    auth: null,
+  };
+  const [user, setUser] = useState(initialUser);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
+  };
+
+  const handleSubmit = (e) => {};
+
+  const isValid = user.email === "" || user.password === "";
+
+  console.log(`user`, user);
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -29,7 +46,11 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={(e) => e.preventDefault()}
+          >
             <TextField
               variant="outlined"
               margin="normal"
@@ -40,6 +61,7 @@ export default function SignInSide() {
               name="email"
               autoComplete="email"
               autoFocus
+              onchange={handleChange}
             />
             <TextField
               variant="outlined"
@@ -51,10 +73,7 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              onchange={handleChange}
             />
             <Button
               type="submit"
@@ -62,6 +81,8 @@ export default function SignInSide() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={handleSubmit}
+              disabled={isValid}
             >
               Sign In
             </Button>
