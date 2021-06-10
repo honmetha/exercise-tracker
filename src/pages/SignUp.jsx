@@ -30,7 +30,8 @@ export default function SignInSide() {
 
   const handleSubmit = (e) => {};
 
-  const isValid = user.email === "" || user.password === "";
+  const isValid =
+    user.email === "" || user.password === "" || user.username === "";
 
   console.log(`user`, user);
 
@@ -51,6 +52,18 @@ export default function SignInSide() {
             noValidate
             onSubmit={(e) => e.preventDefault()}
           >
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="User Name"
+              name="username"
+              autoComplete="username"
+              autoFocus
+              onchange={handleChange}
+            />
             <TextField
               variant="outlined"
               margin="normal"
@@ -84,7 +97,7 @@ export default function SignInSide() {
               onClick={handleSubmit}
               disabled={isValid}
             >
-              Sign In
+              Sign Up
             </Button>
             <Grid container>
               <Grid item xs>
@@ -93,8 +106,8 @@ export default function SignInSide() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/sign-up" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link href="/" variant="body2">
+                  {"Already have an account?"}
                 </Link>
               </Grid>
             </Grid>
