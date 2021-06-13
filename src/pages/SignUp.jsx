@@ -117,7 +117,9 @@ function SignUp(props) {
             </Button>
             <Grid container>
               <Grid item>
-                <Link to="/">{"Already have an account? Sign In"}</Link>
+                <Link href="/" variant="body2">
+                  {"Already have an account? Sign In"}
+                </Link>
               </Grid>
             </Grid>
             <Box mt={5}>

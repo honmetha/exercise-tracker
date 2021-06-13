@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { withFirebase } from "../components/Firebase";
+import { withRouter } from "react-router-dom";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -14,7 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import useStyles from "../config/theme-signinup";
 import Copyright from "../components/Copyright";
 
-export default function SignInSide() {
+function SignIn(props) {
   const classes = useStyles();
   const initialUser = {
     id: null,
@@ -30,9 +32,21 @@ export default function SignInSide() {
     setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit = (e) => {};
+  const handleSubmit = (e) => {
+    props.firebase
+      .doSignInWithEmailAndPassword(user.email, user.password)
+      .then((authUser) => {
+        setUser({ initialUser });
+        props.history.push("/dashboard");
+      })
+      .catch((error) => {
+        setUser({ ...user, error: error.message });
+      });
+  };
 
   const isValid = user.email === "" || user.password === "";
+
+  console.log(`user`, user);
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -61,7 +75,7 @@ export default function SignInSide() {
               name="email"
               autoComplete="email"
               autoFocus
-              onchange={handleChange}
+              onChange={handleChange}
             />
             <TextField
               variant="outlined"
@@ -73,8 +87,11 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
-              onchange={handleChange}
+              onChange={handleChange}
             />
+            <Typography className={classes.error}>
+              {user.error ? user.error : ""}
+            </Typography>
             <Button
               type="submit"
               fullWidth
@@ -107,3 +124,5 @@ export default function SignInSide() {
     </Grid>
   );
 }
+
+export default withRouter(withFirebase(SignIn));
