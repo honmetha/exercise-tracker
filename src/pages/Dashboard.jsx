@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { withFirebase } from "../components/Firebase";
-import { withRouter, Switch, Route, useRouteMatch } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import clsx from "clsx";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -17,17 +17,24 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 
 import useStyles from "../config/theme.dashboard";
 import Copyright from "../components/Copyright";
+import Sidebar from "../components/Sidebar";
 
 function Dashboard(props) {
-  let match = useRouteMatch();
+  // let match = useRouteMatch();
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const signOut = () => {
+    props.firebase.auth.signOut();
+    props.history.push("/");
   };
 
   return (
@@ -69,7 +76,12 @@ function Dashboard(props) {
           </IconButton>
         </Toolbar>
       </AppBar>
-      Sidebar
+      <Sidebar
+        signOut={signOut}
+        open={open}
+        handleDrawerClose={handleDrawerClose}
+      />
+
       <main
         className={
           (classes.content, !open ? classes.contentClosed : classes.appBarShift)
