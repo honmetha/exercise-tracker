@@ -18,6 +18,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import useStyles from "../config/theme.dashboard";
 import Copyright from "../components/Copyright";
 import Sidebar from "../components/Sidebar";
+import Calendar from "../components/Calendar";
 import { AuthUserContext, withAuthentication } from "../components/Session";
 
 function Dashboard(props) {
@@ -96,7 +97,7 @@ function Dashboard(props) {
             >
               <div className={classes.appBarSpacer} />
               <Container maxWidth="xl" className={classes.container}>
-                Calendar
+                <Calendar firebase={props.firebase} authUser={authUser} />
                 <Box pt={4}>
                   <Copyright />
                 </Box>
