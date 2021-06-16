@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { withFirebase } from "../components/Firebase";
+// import { withFirebase } from "../components/Firebase";
 import { withRouter } from "react-router-dom";
 
 import clsx from "clsx";
@@ -18,9 +18,12 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import useStyles from "../config/theme.dashboard";
 import Copyright from "../components/Copyright";
 import Sidebar from "../components/Sidebar";
+import { AuthUserContext, withAuthentication } from "../components/Session";
 
 function Dashboard(props) {
   // let match = useRouteMatch();
+  console.log(`AuthUserContext`, AuthUserContext);
+  console.log(`withAuthentication`, withAuthentication);
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -38,65 +41,74 @@ function Dashboard(props) {
   };
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar
-        position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}
-      >
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(
-              classes.menuButton,
-              open && classes.menuButtonHidden
-            )}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}
-          >
-            Dashboard
-          </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <Typography component="p" style={{ paddingRight: "15px" }}>
-                username
-              </Typography>
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Sidebar
-        signOut={signOut}
-        open={open}
-        handleDrawerClose={handleDrawerClose}
-      />
+    <AuthUserContext.Consumer>
+      {(authUser) =>
+        authUser ? (
+          <div className={classes.root}>
+            <CssBaseline />
+            <AppBar
+              position="absolute"
+              className={clsx(classes.appBar, open && classes.appBarShift)}
+            >
+              <Toolbar className={classes.toolbar}>
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={handleDrawerOpen}
+                  className={clsx(
+                    classes.menuButton,
+                    open && classes.menuButtonHidden
+                  )}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography
+                  component="h1"
+                  variant="h6"
+                  color="inherit"
+                  noWrap
+                  className={classes.title}
+                >
+                  Dashboard
+                </Typography>
+                <IconButton color="inherit">
+                  <Badge badgeContent={4} color="secondary">
+                    <Typography component="p" style={{ paddingRight: "15px" }}>
+                      username
+                    </Typography>
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+            <Sidebar
+              signOut={signOut}
+              open={open}
+              handleDrawerClose={handleDrawerClose}
+            />
 
-      <main
-        className={
-          (classes.content, !open ? classes.contentClosed : classes.appBarShift)
-        }
-      >
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="xl" className={classes.container}>
-          Calendar
-          <Box pt={4}>
-            <Copyright />
-          </Box>
-        </Container>
-      </main>
-    </div>
+            <main
+              className={
+                (classes.content,
+                !open ? classes.contentClosed : classes.appBarShift)
+              }
+            >
+              <div className={classes.appBarSpacer} />
+              <Container maxWidth="xl" className={classes.container}>
+                Calendar
+                <Box pt={4}>
+                  <Copyright />
+                </Box>
+              </Container>
+            </main>
+          </div>
+        ) : (
+          <p>Not authorized!</p>
+        )
+      }
+    </AuthUserContext.Consumer>
   );
 }
 
-export default withRouter(withFirebase(Dashboard));
+export default withRouter(withAuthentication(Dashboard));
