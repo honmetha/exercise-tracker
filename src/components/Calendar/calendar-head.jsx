@@ -9,7 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
-const calendarHead = (props) => {
+const CalendarHead = (props) => {
   const {
     allMonths,
     setMonth,
@@ -86,4 +86,4 @@ const calendarHead = (props) => {
   );
 };
 
-export default calendarHead;
+export default CalendarHead;

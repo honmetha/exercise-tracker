@@ -9,10 +9,16 @@ import CalendarHead from "./calendar-head";
 
 function Calendar(props) {
   // const { firebase, authUser } = props;
+  const defaultSelectedDay = {
+    day: moment().format("D"),
+    month: moment().month(),
+  };
 
   /* HOOKS */
   const [dateObject, setdateObject] = React.useState(moment());
   const [showMonthTable, setShowMonthTable] = React.useState(false);
+  const [selectedDay, setSelected] = React.useState(defaultSelectedDay);
+  // Later add hook for active days from database
 
   /* CALENDAR HEAD */
   const allMonths = moment.months();
@@ -29,6 +35,22 @@ function Calendar(props) {
 
   const toggleMonthSelect = () => setShowMonthTable(!showMonthTable);
 
+  /*** CALENDAR BODY ***/
+  const setSelectedDay = (day) => {
+    setSelected({
+      day,
+      month: currentMonthNum(),
+    });
+    // Later refresh data
+  };
+
+  const currentMonthNum = () => dateObject.month();
+  const daysInMonth = () => dateObject.daysInMonth();
+  const currentDay = () => dateObject.format("D");
+  const actualMonth = () => moment().format("MMMM");
+
+  const firstDayOfMonth = () => moment(dateObject).startOf("month").format("d");
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={8} lg={9}>
@@ -40,7 +62,18 @@ function Calendar(props) {
           showMonthTable={showMonthTable}
           toggleMonthSelect={toggleMonthSelect}
         />
-        <CalendarBody />
+        <CalendarBody
+          firstDayOfMonth={firstDayOfMonth}
+          daysInMonth={daysInMonth}
+          currentDay={currentDay}
+          currentMonth={currentMonth}
+          currentMonthNum={currentMonthNum}
+          selectedDay={selectedDay}
+          // activeDays={activeDays}
+          setSelectedDay={setSelectedDay}
+          actualMonth={actualMonth}
+          weekdays={moment.weekdays()}
+        />
       </Grid>
     </Grid>
   );
