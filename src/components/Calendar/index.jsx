@@ -9,9 +9,10 @@ import Snackbar from "@material-ui/core/Snackbar";
 import CalendarBody from "./calendar-body";
 import CalendarHead from "./calendar-head";
 import AddActivity from "../AddActivity";
+import ActivityList from "../ActivityList";
 
 function Calendar(props) {
-  // const { firebase, authUser } = props;
+  const { firebase, authUser } = props;
   const defaultSelectedDay = {
     day: moment().format("D"),
     month: moment().month(),
@@ -26,6 +27,10 @@ function Calendar(props) {
   /*** ADDING AN ACTIVITY ***/
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [snackbarMsg, setSnackbarMsg] = React.useState(null);
+
+  /*** ACTIVITY LIST ***/
+  const [activities, setActivities] = React.useState(true);
+  const [loading, setLoading] = React.useState(true);
 
   /* CALENDAR HEAD */
   const allMonths = moment.months();
@@ -57,6 +62,26 @@ function Calendar(props) {
   const actualMonth = () => moment().format("MMMM");
 
   const firstDayOfMonth = () => moment(dateObject).startOf("month").format("d");
+
+  const retrieveData = () => {
+    let queryDate = `${selectedDay.day}-${selectedDay.month}-${selectedDay.year}`;
+
+    let ref = firebase.db.ref().child(`users/${authUser.uid}/activities`);
+    ref
+      .orderByChild("date")
+      .equalTo(queryDate)
+      .on("value", (snapshot) => {
+        let data = snapshot.val();
+        setActivities(data);
+        setLoading(false);
+      });
+  };
+
+  // Remove eslint later
+  React.useEffect(() => {
+    retrieveData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDay]);
 
   return (
     <Grid container spacing={3}>
@@ -100,6 +125,20 @@ function Calendar(props) {
               setSnackbarMsg={setSnackbarMsg}
             />
           </>
+        </Paper>
+      </Grid>
+      <Grid item xs={12} md={7}>
+        <Paper className="paper">
+          <h3>
+            Activities on {selectedDay.day}-{selectedDay.month + 1}
+          </h3>
+          <ActivityList
+            loading={loading}
+            activities={activities}
+            authUser={props.authUser}
+            setOpenSnackbar={setOpenSnackbar}
+            setSnackbarMsg={setSnackbarMsg}
+          />
         </Paper>
       </Grid>
     </Grid>
