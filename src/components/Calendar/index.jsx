@@ -3,9 +3,12 @@ import { withAuthentication } from "../Session";
 import moment from "moment";
 
 import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Snackbar from "@material-ui/core/Snackbar";
 
 import CalendarBody from "./calendar-body";
 import CalendarHead from "./calendar-head";
+import AddActivity from "../AddActivity";
 
 function Calendar(props) {
   // const { firebase, authUser } = props;
@@ -19,6 +22,10 @@ function Calendar(props) {
   const [showMonthTable, setShowMonthTable] = React.useState(false);
   const [selectedDay, setSelected] = React.useState(defaultSelectedDay);
   // Later add hook for active days from database
+
+  /*** ADDING AN ACTIVITY ***/
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [snackbarMsg, setSnackbarMsg] = React.useState(null);
 
   /* CALENDAR HEAD */
   const allMonths = moment.months();
@@ -74,6 +81,26 @@ function Calendar(props) {
           actualMonth={actualMonth}
           weekdays={moment.weekdays()}
         />
+        <Snackbar
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          open={openSnackbar}
+          message={snackbarMsg}
+        />
+      </Grid>
+      <Grid item xs={12} md={4} lg={3}>
+        <Paper className="paper">
+          <>
+            <h3>
+              Add activity on {selectedDay.day}-{selectedDay.month + 1}{" "}
+            </h3>
+            <AddActivity
+              selectedDay={selectedDay}
+              authUser={props.authUser}
+              setOpenSnackbar={setOpenSnackbar}
+              setSnackbarMsg={setSnackbarMsg}
+            />
+          </>
+        </Paper>
       </Grid>
     </Grid>
   );
