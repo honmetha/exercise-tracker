@@ -8,15 +8,51 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-// import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 
 const ActivityList = (props) => {
-  const { loading, activities } = props;
+  const {
+    loading,
+    activities,
+    editActivity,
+    setOpenSnackbar,
+    setSnackbarMsg,
+    setEditing,
+  } = props;
+
+  const deleteActivity = (i) => {
+    // Get key of activity in firebase
+    const activityKey = Object.keys(activities)[i];
+    // Connect to our firebase API
+    const emptyActivity = {
+      date: null,
+      duration: null,
+      type: null,
+      name: null,
+    };
+
+    props.firebase.updateActivity(
+      props.authUser.uid,
+      emptyActivity,
+      activityKey
+    );
+
+    // Show notification
+    setOpenSnackbar(true);
+    setSnackbarMsg("Deleted activity");
+    setTimeout(() => {
+      setOpenSnackbar(false);
+    }, 3000);
+
+    // stop editing
+    setEditing(false);
+  };
 
   return (
     <>
       {loading === true ? <img src={loader} alt={loader}></img> : ""}
+
       {activities === "not set" || activities === null ? (
         <p>No activities added yet.</p>
       ) : (
@@ -52,9 +88,9 @@ const ActivityList = (props) => {
                     <TableCell>{type}</TableCell>
                     <TableCell>{duration}</TableCell>
                     <TableCell>
-                      {/* <DeleteIcon onClick={(e) => deleteActivity(i)} /> */}
+                      <DeleteIcon onClick={(e) => deleteActivity(i)} />
                       <EditIcon
-                        // onClick={(e) => editActivity(activity, i)}
+                        onClick={(e) => editActivity(activity, i)}
                         style={{ marginLeft: "20px" }}
                       />
                     </TableCell>
