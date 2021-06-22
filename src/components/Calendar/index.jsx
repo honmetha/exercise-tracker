@@ -10,6 +10,7 @@ import CalendarBody from "./calendar-body";
 import CalendarHead from "./calendar-head";
 import AddActivity from "../AddActivity";
 import ActivityList from "../ActivityList";
+import EditActivity from "../EditActivity";
 
 function Calendar(props) {
   const { firebase, authUser } = props;
@@ -31,6 +32,17 @@ function Calendar(props) {
   /*** ACTIVITY LIST ***/
   const [activities, setActivities] = React.useState(true);
   const [loading, setLoading] = React.useState(true);
+
+  /*** EDIT ACTIVITY ***/
+  const [editing, setEditing] = React.useState(false);
+  const [activity, setActivity] = React.useState(null);
+  const [activityKey, setActivityKey] = React.useState(null);
+
+  const editActivity = (activity, i) => {
+    setActivityKey(Object.keys(activities)[i]);
+    setEditing(true);
+    setActivity(activity);
+  };
 
   /* CALENDAR HEAD */
   const allMonths = moment.months();
@@ -114,17 +126,34 @@ function Calendar(props) {
       </Grid>
       <Grid item xs={12} md={4} lg={3}>
         <Paper className="paper">
-          <>
-            <h3>
-              Add activity on {selectedDay.day}-{selectedDay.month + 1}{" "}
-            </h3>
-            <AddActivity
-              selectedDay={selectedDay}
-              authUser={props.authUser}
-              setOpenSnackbar={setOpenSnackbar}
-              setSnackbarMsg={setSnackbarMsg}
-            />
-          </>
+          {editing ? (
+            <>
+              <h3>
+                Edit activity on {selectedDay.day}-{selectedDay.month + 1}{" "}
+              </h3>
+              <EditActivity
+                activity={activity}
+                activityKey={activityKey}
+                selectedDay={selectedDay}
+                authUser={props.authUser}
+                setEditing={setEditing}
+                setOpenSnackbar={setOpenSnackbar}
+                setSnackbarMsg={setSnackbarMsg}
+              />
+            </>
+          ) : (
+            <>
+              <h3>
+                Add activity on {selectedDay.day}-{selectedDay.month + 1}{" "}
+              </h3>
+              <AddActivity
+                selectedDay={selectedDay}
+                authUser={props.authUser}
+                setOpenSnackbar={setOpenSnackbar}
+                setSnackbarMsg={setSnackbarMsg}
+              />
+            </>
+          )}
         </Paper>
       </Grid>
       <Grid item xs={12} md={7}>
@@ -138,6 +167,8 @@ function Calendar(props) {
             authUser={props.authUser}
             setOpenSnackbar={setOpenSnackbar}
             setSnackbarMsg={setSnackbarMsg}
+            editActivity={editActivity}
+            setEditing={setEditing}
           />
         </Paper>
       </Grid>
