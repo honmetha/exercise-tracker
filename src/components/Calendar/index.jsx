@@ -32,6 +32,7 @@ function Calendar(props) {
   /*** ACTIVITY LIST ***/
   const [activities, setActivities] = React.useState(true);
   const [loading, setLoading] = React.useState(true);
+  const [activeDays, setActiveDays] = React.useState([]);
 
   /*** EDIT ACTIVITY ***/
   const [editing, setEditing] = React.useState(false);
@@ -86,7 +87,27 @@ function Calendar(props) {
         let data = snapshot.val();
         setActivities(data);
         setLoading(false);
+        // setEditing(false); Add later
       });
+
+    // Update active days
+    retrieveActiveDays();
+  };
+
+  const retrieveActiveDays = () => {
+    let ref = firebase.db.ref().child(`users/${authUser.uid}/activities`);
+    ref.on("value", (snapshot) => {
+      let data = snapshot.val();
+      const values = Object.values(data);
+      // Store all active day/month combinations in array for calendar
+      const arr = values.map((obj) => {
+        return obj.date.length === 8
+          ? obj.date.slice(0, 3)
+          : obj.date.slice(0, 4);
+      });
+      console.log(arr);
+      setActiveDays(arr);
+    });
   };
 
   // Remove eslint later
@@ -113,7 +134,7 @@ function Calendar(props) {
           currentMonth={currentMonth}
           currentMonthNum={currentMonthNum}
           selectedDay={selectedDay}
-          // activeDays={activeDays}
+          activeDays={activeDays}
           setSelectedDay={setSelectedDay}
           actualMonth={actualMonth}
           weekdays={moment.weekdays()}
