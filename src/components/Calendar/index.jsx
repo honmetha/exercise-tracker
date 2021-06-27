@@ -1,5 +1,4 @@
 import * as React from "react";
-import { withAuthentication } from "../Session";
 import moment from "moment";
 
 import Grid from "@material-ui/core/Grid";
@@ -133,16 +132,11 @@ function Calendar(props) {
           currentDay={currentDay}
           currentMonth={currentMonth}
           currentMonthNum={currentMonthNum}
-          selectedDay={selectedDay}
-          activeDays={activeDays}
-          setSelectedDay={setSelectedDay}
           actualMonth={actualMonth}
+          setSelectedDay={setSelectedDay}
+          selectedDay={selectedDay}
           weekdays={moment.weekdays()}
-        />
-        <Snackbar
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          open={openSnackbar}
-          message={snackbarMsg}
+          activeDays={activeDays}
         />
       </Grid>
       <Grid item xs={12} md={4} lg={3}>
@@ -193,8 +187,16 @@ function Calendar(props) {
           />
         </Paper>
       </Grid>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        open={openSnackbar}
+        message={snackbarMsg}
+      />
     </Grid>
   );
 }
 
-export default withAuthentication(Calendar);
+export default Calendar;
