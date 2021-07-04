@@ -7,44 +7,26 @@ import Snackbar from "@material-ui/core/Snackbar";
 
 import CalendarBody from "./calendar-body";
 import CalendarHead from "./calendar-head";
+
 import AddActivity from "../AddActivity";
-import ActivityList from "../ActivityList";
 import EditActivity from "../EditActivity";
+import ActivityList from "../ActivityList";
 
 function Calendar(props) {
   const { firebase, authUser } = props;
-  const defaultSelectedDay = {
+
+  let defaultSelectedDay = {
     day: moment().format("D"),
     month: moment().month(),
   };
 
-  /* HOOKS */
+  /*** HOOKS ***/
   const [dateObject, setdateObject] = React.useState(moment());
   const [showMonthTable, setShowMonthTable] = React.useState(false);
   const [selectedDay, setSelected] = React.useState(defaultSelectedDay);
   // Later add hook for active days from database
 
-  /*** ADDING AN ACTIVITY ***/
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
-  const [snackbarMsg, setSnackbarMsg] = React.useState(null);
-
-  /*** ACTIVITY LIST ***/
-  const [activities, setActivities] = React.useState(true);
-  const [loading, setLoading] = React.useState(true);
-  const [activeDays, setActiveDays] = React.useState([]);
-
-  /*** EDIT ACTIVITY ***/
-  const [editing, setEditing] = React.useState(false);
-  const [activity, setActivity] = React.useState(null);
-  const [activityKey, setActivityKey] = React.useState(null);
-
-  const editActivity = (activity, i) => {
-    setActivityKey(Object.keys(activities)[i]);
-    setEditing(true);
-    setActivity(activity);
-  };
-
-  /* CALENDAR HEAD */
+  /*** CALENDAR HEAD ***/
   const allMonths = moment.months();
   const currentMonth = () => dateObject.format("MMMM");
   const currentYear = () => dateObject.format("YYYY");
@@ -74,6 +56,15 @@ function Calendar(props) {
   const actualMonth = () => moment().format("MMMM");
 
   const firstDayOfMonth = () => moment(dateObject).startOf("month").format("d");
+
+  /*** ADDING AN ACTIVITY ***/
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [snackbarMsg, setSnackbarMsg] = React.useState(null);
+
+  /*** ACTIVITY LIST ***/
+  const [activities, setActivities] = React.useState(true);
+  const [loading, setLoading] = React.useState([]);
+  const [activeDays, setActiveDays] = React.useState([]);
 
   const retrieveData = () => {
     let queryDate = `${selectedDay.day}-${selectedDay.month}-${selectedDay.year}`;
@@ -114,6 +105,17 @@ function Calendar(props) {
     retrieveData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDay]);
+
+  /*** EDIT AN ACTIVITY ***/
+  const [editing, setEditing] = React.useState(false);
+  const [activity, setActivity] = React.useState(null);
+  const [activityKey, setActivityKey] = React.useState(null);
+
+  const editActivity = (activity, i) => {
+    setActivityKey(Object.keys(activities)[i]);
+    setEditing(true);
+    setActivity(activity);
+  };
 
   return (
     <Grid container spacing={3}>

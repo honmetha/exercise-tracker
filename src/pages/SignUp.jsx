@@ -13,11 +13,12 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 
-import useStyles from "../config/theme-signinup";
+import useStyles from "../config/theme.signinup";
 import Copyright from "../components/Copyright";
 
 function SignUp(props) {
   const classes = useStyles();
+
   const initialUser = {
     id: null,
     name: "",
@@ -26,6 +27,7 @@ function SignUp(props) {
     error: null,
     auth: null,
   };
+
   const [user, setUser] = useState(initialUser);
 
   const handleChange = (e) => {

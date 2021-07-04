@@ -59,7 +59,7 @@ function Sidebar(props) {
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
-              <ListItemText primary="Admin" />
+              <ListItemText primary="Settings" />
             </ListItem>
           </Link>
           <ListItem button onClick={() => props.signOut()}>

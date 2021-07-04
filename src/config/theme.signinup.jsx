@@ -5,12 +5,13 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
   },
   image: {
-    backgroundImage: "url(https://source.unsplash.com/random)",
+    backgroundImage:
+      "url(https://source.unsplash.com/collection/8172461/1500xauto)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
-      theme.palette.type === "light"
-        ? theme.palette.grey[50]
-        : theme.palette.grey[900],
+      theme.palette.type === "dark"
+        ? theme.palette.grey[900]
+        : theme.palette.grey[50],
     backgroundSize: "cover",
     backgroundPosition: "center",
   },
@@ -30,6 +31,17 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+  },
+  logo: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "2em",
+  },
+  logoText: {
+    fontWeight: "bold",
+  },
+  error: {
+    color: "red",
   },
 }));
 

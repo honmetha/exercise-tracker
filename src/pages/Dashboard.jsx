@@ -1,6 +1,6 @@
 import * as React from "react";
 
-// import { withFirebase } from "../components/Firebase";
+import { AuthUserContext, withAuthentication } from "../components/Session";
 import { withRouter } from "react-router-dom";
 
 import clsx from "clsx";
@@ -16,10 +16,10 @@ import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 
 import useStyles from "../config/theme.dashboard";
-import Copyright from "../components/Copyright";
-import Sidebar from "../components/Sidebar";
+
 import Calendar from "../components/Calendar";
-import { AuthUserContext, withAuthentication } from "../components/Session";
+import Sidebar from "../components/Sidebar";
+import Copyright from "../components/Copyright";
 
 function Dashboard(props) {
   // let match = useRouteMatch();
@@ -27,14 +27,11 @@ function Dashboard(props) {
   console.log(`withAuthentication`, withAuthentication);
 
   const classes = useStyles();
+
   const [open, setOpen] = React.useState(true);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const handleDrawerOpen = () => setOpen(true);
+  const handleDrawerClose = () => setOpen(false);
 
   const signOut = () => {
     props.firebase.auth.signOut();
@@ -83,6 +80,7 @@ function Dashboard(props) {
                 </IconButton>
               </Toolbar>
             </AppBar>
+
             <Sidebar
               signOut={signOut}
               open={open}
@@ -105,7 +103,7 @@ function Dashboard(props) {
             </main>
           </div>
         ) : (
-          <p>Not authorized!</p>
+          <p>Not authorized.</p>
         )
       }
     </AuthUserContext.Consumer>

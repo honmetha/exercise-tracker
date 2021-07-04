@@ -13,12 +13,14 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 
-import useStyles from "../config/theme-signinup";
+import useStyles from "../config/theme.signinup";
 import Copyright from "../components/Copyright";
+
 import PasswordForget from "../components/PasswordForget";
 
 function SignIn(props) {
   const classes = useStyles();
+
   const initialUser = {
     id: null,
     email: "",
@@ -26,6 +28,7 @@ function SignIn(props) {
     error: null,
     auth: null,
   };
+
   const [user, setUser] = useState(initialUser);
 
   const handleChange = (e) => {
@@ -33,7 +36,7 @@ function SignIn(props) {
     setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     props.firebase
       .doSignInWithEmailAndPassword(user.email, user.password)
       .then((authUser) => {

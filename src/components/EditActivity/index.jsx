@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import * as React from "react";
 import { withFirebase } from "../Firebase";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -42,7 +42,7 @@ function EditActivity(props) {
     date: activity.date,
   };
 
-  const [newActivity, setNewActivity] = useState(defaultActivity);
+  const [newActivity, setNewActivity] = React.useState(defaultActivity);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
