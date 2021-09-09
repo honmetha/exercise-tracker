@@ -99,9 +99,9 @@ function EditActivity(props) {
             name="type"
             onChange={handleChange}
           >
-            <MenuItem value={1}>Lifting Weights</MenuItem>
-            <MenuItem value={2}>Running</MenuItem>
-            <MenuItem value={3}>Cycling</MenuItem>
+            <MenuItem value={1}>Exercise</MenuItem>
+            <MenuItem value={2}>Nutrition</MenuItem>
+            <MenuItem value={3}>Sleep</MenuItem>
           </Select>
         </div>
         <Typography id="discrete-slider" gutterBottom>

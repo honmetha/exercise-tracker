@@ -46,7 +46,7 @@ function Sidebar(props) {
             <ListItemIcon>
               <EventNoteIcon />
             </ListItemIcon>
-            <ListItemText primary="Workouts" />
+            <ListItemText primary="Activities" />
           </ListItem>
         </Link>
       </List>

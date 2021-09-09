@@ -71,13 +71,13 @@ const ActivityList = (props) => {
                 let { name, type, duration } = activity;
                 switch (activity.type) {
                   case 1:
-                    type = "Lifting weights";
+                    type = "Exercise";
                     break;
                   case 2:
-                    type = "Running";
+                    type = "Nutrition";
                     break;
                   case 3:
-                    type = "Cycling";
+                    type = "Sleep";
                     break;
                   default:
                     type = "Not set";
