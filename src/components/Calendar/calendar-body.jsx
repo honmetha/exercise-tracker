@@ -44,8 +44,7 @@ const CalendarBody = (props) => {
     // Check if day found in this month active days
     let formattedDate = `${d}-${currentMonthNum()}`;
     if (activeDays.indexOf(formattedDate) !== -1) activeDay = "active";
-
-    // console.log(activeDays);
+    if (activeDay && d < 10) activeDay += " padding-x";
 
     monthDays.push(
       <TableCell

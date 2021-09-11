@@ -33,6 +33,11 @@
   border-radius: 50%;
 }
 
+.calendar .padding-x {
+  padding-left: 9px;
+  padding-right: 9px;
+}
+
 .month-selector th {
   text-align: center;
   font-weight: bold;
