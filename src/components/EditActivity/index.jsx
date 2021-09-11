@@ -111,10 +111,9 @@ function EditActivity(props) {
           defaultValue={parseInt(newActivity.duration)}
           aria-labelledby="discrete-slider"
           valueLabelDisplay="auto"
-          step={10}
-          marks
-          min={10}
-          max={120}
+          step={1}
+          min={0}
+          max={100}
           name="duration"
           onChange={handleSlider}
           style={{ marginBottom: "20px" }}
