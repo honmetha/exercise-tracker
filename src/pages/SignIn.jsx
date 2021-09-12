@@ -30,14 +30,16 @@ function SignIn(props) {
   };
 
   const [user, setUser] = useState(initialUser);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit = () => {
-    props.firebase
+  const handleSubmit = async () => {
+    setLoading(true);
+    await props.firebase
       .doSignInWithEmailAndPassword(user.email, user.password)
       .then((authUser) => {
         setUser({ initialUser });
@@ -46,6 +48,7 @@ function SignIn(props) {
       .catch((error) => {
         setUser({ ...user, error: error.message });
       });
+    setLoading(false);
   };
 
   const isValid = user.email === "" || user.password === "";
@@ -103,7 +106,7 @@ function SignIn(props) {
               color="primary"
               className={classes.submit}
               onClick={handleSubmit}
-              disabled={isValid}
+              disabled={isValid || loading}
             >
               Sign In
             </Button>
