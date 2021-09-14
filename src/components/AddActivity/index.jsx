@@ -35,7 +35,7 @@ function AddActivity(props) {
   const defaultActivity = {
     name: "",
     type: 1,
-    duration: 60,
+    duration: 0,
     date: queryDate,
   };
 
@@ -50,9 +50,9 @@ function AddActivity(props) {
     });
   };
 
-  const handleSlider = (e) => {
-    const duration = e.target.getAttribute("aria-valuenow");
-    setActivity({ ...activity, duration: duration });
+  const handleSlider = (e, value) => {
+    const duration = value.toString();
+    setActivity({ ...activity, duration });
   };
 
   const isValid = activity.name === "";
@@ -106,6 +106,7 @@ function AddActivity(props) {
           Duration
         </Typography>
         <Slider
+          key={`slider-${activity.duration}`}
           defaultValue={activity.duration}
           aria-labelledby="discrete-slider"
           valueLabelDisplay="auto"
@@ -113,7 +114,7 @@ function AddActivity(props) {
           min={0}
           max={100}
           name="duration"
-          onChange={handleSlider}
+          onChangeCommitted={handleSlider}
           style={{ marginBottom: "20px" }}
         />
       </FormControl>

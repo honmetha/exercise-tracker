@@ -52,9 +52,9 @@ function EditActivity(props) {
     });
   };
 
-  const handleSlider = (e) => {
-    const duration = e.target.getAttribute("aria-valuenow");
-    setNewActivity({ ...newActivity, duration: duration });
+  const handleSlider = (e, value) => {
+    const duration = value.toString();
+    setNewActivity({ ...newActivity, duration });
   };
 
   const isValid = newActivity.name === "";
@@ -108,6 +108,7 @@ function EditActivity(props) {
           Duration
         </Typography>
         <Slider
+          key={`slider-${newActivity.duration}`}
           defaultValue={parseInt(newActivity.duration)}
           aria-labelledby="discrete-slider"
           valueLabelDisplay="auto"
@@ -115,7 +116,7 @@ function EditActivity(props) {
           min={0}
           max={100}
           name="duration"
-          onChange={handleSlider}
+          onChangeCommitted={handleSlider}
           style={{ marginBottom: "20px" }}
         />
       </FormControl>
