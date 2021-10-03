@@ -13,15 +13,9 @@ function App() {
     <Router>
       <ThemeProvider theme={theme}>
         <Switch>
-          <Route exact path="/">
-            <SignIn />
-          </Route>
-          <Route path="/sign-up">
-            <SignUp />
-          </Route>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
+          <Route exact path="/" component={SignIn} />
+          <Route path="/sign-up" component={SignUp} />
+          <Route path="/dashboard" component={Dashboard} />
         </Switch>
       </ThemeProvider>
     </Router>
