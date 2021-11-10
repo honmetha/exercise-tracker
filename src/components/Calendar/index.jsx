@@ -162,9 +162,12 @@ function Calendar(props) {
             </>
           ) : (
             <>
-              <h3>
-                Add activity on {selectedDay.day}-{selectedDay.month + 1}{" "}
-              </h3>
+              <div className="flex items-center">
+                <h3>
+                  Add activity on {selectedDay.day}-{selectedDay.month + 1}{" "}
+                </h3>
+                <input type="color" className="ml-4" />
+              </div>
               <AddActivity
                 selectedDay={selectedDay}
                 authUser={props.authUser}
@@ -175,7 +178,7 @@ function Calendar(props) {
           )}
         </Paper>
       </Grid>
-      <Grid item xs={12} md={7}>
+      <Grid item xs={12} md={8} lg={9}>
         <Paper className="paper">
           <h3>
             Activities on {selectedDay.day}-{selectedDay.month + 1}
